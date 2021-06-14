@@ -108,7 +108,7 @@ var Utils = /** @class */ (function () {
                         pdfBuffer = fs_1.default.readFileSync(completePath);
                         thumbnailCompletePath = dir + "/" + outputThumbnailFile;
                         file = fs_1.default.createWriteStream(thumbnailCompletePath);
-                        console.log("Generating thumbnail from the pdf " + outputThumbnailFile + "...");
+                        console.log("Generating thumbnail from the pdf  " + outputThumbnailFile + "...");
                         return [4 /*yield*/, pdf_thumbnail_1.default(pdfBuffer).then(function (value) {
                                 value.pipe(file);
                                 file.on("error", function (err) {

@@ -40,23 +40,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRouteHandler = void 0;
-var PdfUtils_1 = __importDefault(require("./PdfUtils"));
-var StoredPdf_1 = require("./models/StoredPdf");
-var fs = require("fs");
+var fs_1 = __importDefault(require("fs"));
+var axios_1 = __importDefault(require("axios"));
+var pdfUtils_1 = __importDefault(require("./pdfUtils"));
+var storedPdf_1 = require("./models/storedPdf");
 var baseDir = "temp/";
-var axios = require("axios").default;
 var path = require("path");
-//import fileUrl from 'file-url';
 var UserRouteHandler = /** @class */ (function () {
     function UserRouteHandler() {
-        if (!fs.existsSync(baseDir)) {
+        if (!fs_1.default.existsSync(baseDir)) {
             console.log("Creating directory");
-            fs.mkdirSync(baseDir);
+            fs_1.default.mkdirSync(baseDir);
         }
     }
     UserRouteHandler.prototype.processPDF = function (createPdfRequest) {
         return __awaiter(this, void 0, void 0, function () {
-            var status, thumbnailName, e_1;
+            var status, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -65,12 +64,11 @@ var UserRouteHandler = /** @class */ (function () {
                     case 1:
                         _a.trys.push([1, 4, , 5]);
                         //console.log(createPdfRequest.pdf_url);
-                        return [4 /*yield*/, PdfUtils_1.default.downloadPDF(createPdfRequest.pdf_url, createPdfRequest.name)];
+                        return [4 /*yield*/, pdfUtils_1.default.downloadPDF(createPdfRequest.pdf_url, createPdfRequest.name)];
                     case 2:
                         //console.log(createPdfRequest.pdf_url);
                         _a.sent();
-                        thumbnailName = "thumbnail.png";
-                        return [4 /*yield*/, PdfUtils_1.default.generateThumbnail(createPdfRequest.name, "thumbnail.png")];
+                        return [4 /*yield*/, pdfUtils_1.default.generateThumbnail(createPdfRequest.name, "thumbnail.png")];
                     case 3:
                         _a.sent();
                         //Utils.validatePDF(createPdfRequest.name)
@@ -83,12 +81,9 @@ var UserRouteHandler = /** @class */ (function () {
                     case 5:
                         //webhook post completion
                         console.log("Executing webhook");
-                        axios
+                        axios_1.default
                             .post("http://localhost:3003/prcoessingComplete", {
                             PDFUploaded: status,
-                        })
-                            .then(function (response) {
-                            //console.log("response for webhook", response);
                         })
                             .catch(function (error) {
                             console.log(error);
@@ -103,7 +98,7 @@ var UserRouteHandler = /** @class */ (function () {
             var directories, results, i, files, pdfFile, thumbnailFile, _i, files_1, file, storedPdf, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, fs.promises.readdir(baseDir)];
+                    case 0: return [4 /*yield*/, fs_1.default.promises.readdir(baseDir)];
                     case 1:
                         directories = _a.sent();
                         results = new Array();
@@ -114,9 +109,11 @@ var UserRouteHandler = /** @class */ (function () {
                         _a.label = 3;
                     case 3:
                         if (!(i < directories.length)) return [3 /*break*/, 6];
-                        return [4 /*yield*/, fs.promises.readdir(baseDir + directories[i])];
+                        return [4 /*yield*/, fs_1.default.promises.readdir(baseDir + directories[i])];
                     case 4:
                         files = _a.sent();
+                        pdfFile = void 0;
+                        thumbnailFile = void 0;
                         for (_i = 0, files_1 = files; _i < files_1.length; _i++) {
                             file = files_1[_i];
                             if (file.includes(".pdf")) {
@@ -126,7 +123,7 @@ var UserRouteHandler = /** @class */ (function () {
                                 thumbnailFile = file;
                             }
                         }
-                        storedPdf = new StoredPdf_1.StoredPdf(path.resolve(baseDir + directories[i], thumbnailFile), path.resolve(baseDir + directories[i], pdfFile));
+                        storedPdf = new storedPdf_1.StoredPdf(path.resolve(baseDir + directories[i], thumbnailFile), path.resolve(baseDir + directories[i], pdfFile));
                         results.push(storedPdf);
                         _a.label = 5;
                     case 5:
