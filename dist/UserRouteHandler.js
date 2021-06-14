@@ -49,9 +49,11 @@ var path = require("path");
 //import fileUrl from 'file-url';
 var UserRouteHandler = /** @class */ (function () {
     function UserRouteHandler() {
+        if (!fs.existsSync(baseDir)) {
+            console.log("Creating directory");
+            fs.mkdirSync(baseDir);
+        }
     }
-    UserRouteHandler.prototype.UserRouteHandler = function () {
-    };
     UserRouteHandler.prototype.processPDF = function (createPdfRequest) {
         return __awaiter(this, void 0, void 0, function () {
             var status, thumbnailName, e_1;

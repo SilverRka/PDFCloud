@@ -12,8 +12,11 @@ var path = require("path");
 
 export class UserRouteHandler {
 
-    UserRouteHandler () {
-
+    constructor () {
+        if (!fs.existsSync(baseDir)){
+            console.log("Creating directory");
+            fs.mkdirSync(baseDir);
+        }
     }
 
    async processPDF(createPdfRequest  : BasePdf) {
