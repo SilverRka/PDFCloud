@@ -37,7 +37,7 @@ export default class Utils {
     let thumbnailCompletePath = dir + "/" + outputThumbnailFile;
     const file = fs.createWriteStream(thumbnailCompletePath);
     console.log(
-      "Generating thumbnail from the pdf " + outputThumbnailFile + "..."
+      "Generating thumbnail from the pdf  " + outputThumbnailFile + "..."
     );
     let thumbNail = await pdf(pdfBuffer).then((value: any) => {
       value.pipe(file);

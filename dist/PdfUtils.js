@@ -54,12 +54,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var https = __importStar(require("https"));
-var fs = require("fs");
-var pdf = require('pdf-thumbnail');
+var fs_1 = __importDefault(require("fs"));
+var pdf_thumbnail_1 = __importDefault(require("pdf-thumbnail"));
 var baseDir = "temp/";
-var gm = require('gm');
 var Utils = /** @class */ (function () {
     function Utils() {
     }
@@ -70,18 +72,16 @@ var Utils = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         dir = baseDir + outputFilename.slice(0, -4);
-                        if (!fs.existsSync(dir)) {
-                            fs.mkdirSync(dir);
+                        if (!fs_1.default.existsSync(dir)) {
+                            fs_1.default.mkdirSync(dir);
                         }
                         else {
                             throw new Error("Duplicate File");
                         }
                         completePath = dir + "/" + outputFilename;
-                        file = fs.createWriteStream(completePath);
+                        file = fs_1.default.createWriteStream(completePath);
                         return [4 /*yield*/, new Promise(function (resolve, reject) {
-                                //var body = ''; 
                                 https.get(pdfURL, function (response) {
-                                    //console.log("response for pdfBufffer", body);
                                     response.pipe(file);
                                     resolve(response);
                                     file.on("error", function (err) {
@@ -105,17 +105,15 @@ var Utils = /** @class */ (function () {
                     case 0:
                         dir = baseDir + pdfFilename.slice(0, -4);
                         completePath = dir + "/" + pdfFilename;
-                        pdfBuffer = fs.readFileSync(completePath);
+                        pdfBuffer = fs_1.default.readFileSync(completePath);
                         thumbnailCompletePath = dir + "/" + outputThumbnailFile;
-                        file = fs.createWriteStream(thumbnailCompletePath);
+                        file = fs_1.default.createWriteStream(thumbnailCompletePath);
                         console.log("Generating thumbnail from the pdf " + outputThumbnailFile + "...");
-                        return [4 /*yield*/, pdf(pdfBuffer).then(function (value) {
-                                //console.log(value)
+                        return [4 /*yield*/, pdf_thumbnail_1.default(pdfBuffer).then(function (value) {
                                 value.pipe(file);
                                 file.on("error", function (err) {
                                     console.log(err);
                                 });
-                                //console.log(value);
                             })];
                     case 1:
                         thumbNail = _a.sent();

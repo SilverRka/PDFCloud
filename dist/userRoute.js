@@ -38,6 +38,11 @@ var UsersRoutes = /** @class */ (function (_super) {
             userRouteHandler.processPDF(createPdf);
             return res.status(200).send("PDF processing is in progress");
         });
+        this.app.route('/prcoessingComplete')
+            .post(function (req, res) {
+            console.log("PDF status is", req.body.PDFUploaded);
+            return res.status(200);
+        });
         return this.app;
     };
     return UsersRoutes;

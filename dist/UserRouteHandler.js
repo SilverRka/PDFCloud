@@ -44,7 +44,7 @@ var PdfUtils_1 = __importDefault(require("./PdfUtils"));
 var StoredPdf_1 = require("./models/StoredPdf");
 var fs = require("fs");
 var baseDir = "temp/";
-var axios = require('axios').default;
+var axios = require("axios").default;
 var path = require("path");
 //import fileUrl from 'file-url';
 var UserRouteHandler = /** @class */ (function () {
@@ -70,9 +70,7 @@ var UserRouteHandler = /** @class */ (function () {
                         //console.log(createPdfRequest.pdf_url);
                         _a.sent();
                         thumbnailName = "thumbnail.png";
-                        return [4 /*yield*/, PdfUtils_1.default.generateThumbnail(createPdfRequest.name, 'thumbnail.png')
-                            //Utils.validatePDF(createPdfRequest.name)
-                        ];
+                        return [4 /*yield*/, PdfUtils_1.default.generateThumbnail(createPdfRequest.name, "thumbnail.png")];
                     case 3:
                         _a.sent();
                         //Utils.validatePDF(createPdfRequest.name)
@@ -85,9 +83,9 @@ var UserRouteHandler = /** @class */ (function () {
                     case 5:
                         //webhook post completion
                         console.log("Executing webhook");
-                        axios.post('http://localhost:3000/prcoessingComplete', {
-                            pdfName: createPdfRequest.name,
-                            PDFUploaded: status
+                        axios
+                            .post("http://localhost:3003/prcoessingComplete", {
+                            PDFUploaded: status,
                         })
                             .then(function (response) {
                             //console.log("response for webhook", response);
@@ -134,16 +132,12 @@ var UserRouteHandler = /** @class */ (function () {
                     case 5:
                         i++;
                         return [3 /*break*/, 3];
-                    case 6:
-                        ;
-                        return [3 /*break*/, 8];
+                    case 6: return [3 /*break*/, 8];
                     case 7:
                         e_2 = _a.sent();
                         console.log(e_2);
                         return [3 /*break*/, 8];
-                    case 8:
-                        ;
-                        return [2 /*return*/, results];
+                    case 8: return [2 /*return*/, results];
                 }
             });
         });
